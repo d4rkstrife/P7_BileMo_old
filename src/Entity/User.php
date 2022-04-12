@@ -25,6 +25,10 @@ class User
     #[ORM\Column(type: 'datetime')]
     private $signupDate;
 
+    #[ORM\ManyToOne(targetEntity: customer::class, inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $customer;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +78,18 @@ class User
     public function setSignupDate(\DateTimeInterface $signupDate): self
     {
         $this->signupDate = $signupDate;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
