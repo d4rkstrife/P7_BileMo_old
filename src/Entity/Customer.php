@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
@@ -16,59 +14,97 @@ class Customer
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $name;
+    private $firstName;
 
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: User::class, orphanRemoval: true)]
-    private $users;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $lastName;
 
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
+    #[ORM\Column(type: 'string', length: 255)]
+    private $userName;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $adress;
+
+    #[ORM\Column(type: 'datetime')]
+    private $SignUpDate;
+
+    #[ORM\ManyToOne(targetEntity: Reseeler::class, inversedBy: 'customers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $reseeler;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->name;
+        return $this->firstName;
     }
 
-    public function setName(string $name): self
+    public function setFirstName(string $firstName): self
     {
-        $this->name = $name;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
+    public function getLastName(): ?string
     {
-        return $this->users;
+        return $this->lastName;
     }
 
-    public function addUser(User $user): self
+    public function setLastName(string $lastName): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setCustomer($this);
-        }
+        $this->lastName = $lastName;
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function getUserName(): ?string
     {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getCustomer() === $this) {
-                $user->setCustomer(null);
-            }
-        }
+        return $this->userName;
+    }
+
+    public function setUserName(string $userName): self
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->adress;
+    }
+
+    public function setAdress(string $adress): self
+    {
+        $this->adress = $adress;
+
+        return $this;
+    }
+
+    public function getSignUpDate(): ?\DateTimeInterface
+    {
+        return $this->SignUpDate;
+    }
+
+    public function setSignUpDate(\DateTimeInterface $SignUpDate): self
+    {
+        $this->SignUpDate = $SignUpDate;
+
+        return $this;
+    }
+
+    public function getReseeler(): ?Reseeler
+    {
+        return $this->reseeler;
+    }
+
+    public function setReseeler(?Reseeler $reseeler): self
+    {
+        $this->reseeler = $reseeler;
 
         return $this;
     }

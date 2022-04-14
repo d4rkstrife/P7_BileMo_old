@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,7 +12,8 @@ class ProductController extends AbstractController
     #[Route('/api/products', name: 'all_products')]
     public function allProducts(): Response
     {
-        return new Response('La liste de tous les produits');
+
+        return new Response('toto');
     }
 
     #[Route('/api/products/{productId}', name: 'product_details')]

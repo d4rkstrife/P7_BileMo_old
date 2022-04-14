@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
+use App\Repository\PhoneRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
-class Product
+#[ORM\Entity(repositoryClass: PhoneRepository::class)]
+class Phone
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -27,12 +27,12 @@ class Product
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductPicture::class, orphanRemoval: true)]
-    private $picture;
+    #[ORM\OneToMany(mappedBy: 'phone', targetEntity: PhonePicture::class, orphanRemoval: true)]
+    private $phonePictures;
 
     public function __construct()
     {
-        $this->picture = new ArrayCollection();
+        $this->phonePictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,29 +89,29 @@ class Product
     }
 
     /**
-     * @return Collection<int, ProductPicture>
+     * @return Collection<int, PhonePicture>
      */
-    public function getPicture(): Collection
+    public function getPhonePictures(): Collection
     {
-        return $this->picture;
+        return $this->phonePictures;
     }
 
-    public function addPicture(ProductPicture $picture): self
+    public function addPhonePicture(PhonePicture $phonePicture): self
     {
-        if (!$this->picture->contains($picture)) {
-            $this->picture[] = $picture;
-            $picture->setProduct($this);
+        if (!$this->phonePictures->contains($phonePicture)) {
+            $this->phonePictures[] = $phonePicture;
+            $phonePicture->setPhone($this);
         }
 
         return $this;
     }
 
-    public function removePicture(ProductPicture $picture): self
+    public function removePhonePicture(PhonePicture $phonePicture): self
     {
-        if ($this->picture->removeElement($picture)) {
+        if ($this->phonePictures->removeElement($phonePicture)) {
             // set the owning side to null (unless already changed)
-            if ($picture->getProduct() === $this) {
-                $picture->setProduct(null);
+            if ($phonePicture->getPhone() === $this) {
+                $phonePicture->setPhone(null);
             }
         }
 
