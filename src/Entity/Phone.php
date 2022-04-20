@@ -27,8 +27,8 @@ class Phone
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\OneToMany(mappedBy: 'phone', targetEntity: PhonePicture::class, orphanRemoval: true)]
-    private $phonePictures;
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private $uuid;
 
     public function __construct()
     {
@@ -88,32 +88,14 @@ class Phone
         return $this;
     }
 
-    /**
-     * @return Collection<int, PhonePicture>
-     */
-    public function getPhonePictures(): Collection
+    public function getUuid()
     {
-        return $this->phonePictures;
+        return $this->uuid;
     }
 
-    public function addPhonePicture(PhonePicture $phonePicture): self
+    public function setUuid($uuid): self
     {
-        if (!$this->phonePictures->contains($phonePicture)) {
-            $this->phonePictures[] = $phonePicture;
-            $phonePicture->setPhone($this);
-        }
-
-        return $this;
-    }
-
-    public function removePhonePicture(PhonePicture $phonePicture): self
-    {
-        if ($this->phonePictures->removeElement($phonePicture)) {
-            // set the owning side to null (unless already changed)
-            if ($phonePicture->getPhone() === $this) {
-                $phonePicture->setPhone(null);
-            }
-        }
+        $this->uuid = $uuid;
 
         return $this;
     }

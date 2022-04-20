@@ -19,7 +19,7 @@ class Customer
     #[ORM\Column(type: 'string', length: 255)]
     private $lastName;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $userName;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -31,6 +31,9 @@ class Customer
     #[ORM\ManyToOne(targetEntity: Reseeler::class, inversedBy: 'customers')]
     #[ORM\JoinColumn(nullable: false)]
     private $reseeler;
+
+    #[ORM\Column(type: 'uuid', unique: true)]
+    private $uuid;
 
     public function getId(): ?int
     {
@@ -105,6 +108,18 @@ class Customer
     public function setReseeler(?Reseeler $reseeler): self
     {
         $this->reseeler = $reseeler;
+
+        return $this;
+    }
+
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid($uuid): self
+    {
+        $this->uuid = $uuid;
 
         return $this;
     }
