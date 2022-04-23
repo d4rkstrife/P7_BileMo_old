@@ -2,22 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\ReseelerRepository;
+use App\Repository\ResellerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: ReseelerRepository::class)]
-class Reseeler implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: ResellerRepository::class)]
+class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[ORM\Column(type: 'string')]
     private $uuid;
 
     #[ORM\Column(type: 'json')]
@@ -26,16 +26,16 @@ class Reseeler implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $company;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private $mail;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
-    #[ORM\OneToMany(mappedBy: 'reseeler', targetEntity: Customer::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'Reseller', targetEntity: Customer::class, orphanRemoval: true)]
     private $customers;
 
     public function __construct()
@@ -161,7 +161,7 @@ class Reseeler implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->customers->contains($customer)) {
             $this->customers[] = $customer;
-            $customer->setReseeler($this);
+            $customer->setReseller($this);
         }
 
         return $this;
@@ -171,8 +171,8 @@ class Reseeler implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->customers->removeElement($customer)) {
             // set the owning side to null (unless already changed)
-            if ($customer->getReseeler() === $this) {
-                $customer->setReseeler(null);
+            if ($customer->getReseller() === $this) {
+                $customer->setReseller(null);
             }
         }
 

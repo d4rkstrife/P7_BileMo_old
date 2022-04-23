@@ -2,15 +2,15 @@
 
 namespace App\DataFixtures;
 
-use App\Factory\ReseelerFactory;
+use App\Factory\ResellerFactory;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
-class ReseelerFixtures extends Fixture
+class ResellerFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        ReseelerFactory::new()->createMany(20);
+        ResellerFactory::new()->createMany(20);
         $manager->flush();
     }
 }

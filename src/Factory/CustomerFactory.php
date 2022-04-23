@@ -5,6 +5,7 @@ namespace App\Factory;
 use App\Entity\Customer;
 use Zenstruck\Foundry\Proxy;
 use Symfony\Component\Uid\Uuid;
+use App\Factory\ResellerFactory;
 use Zenstruck\Foundry\ModelFactory;
 use App\Repository\CustomerRepository;
 use Zenstruck\Foundry\RepositoryProxy;
@@ -42,10 +43,11 @@ final class CustomerFactory extends ModelFactory
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
             'firstName' => self::faker()->name(),
             'lastName' => self::faker()->name(),
-            'userName' => self::faker()->name(),
             'adress' => self::faker()->text(),
-            'SignUpDate' => self::faker()->dateTime(), // TODO add DATETIME ORM type manually
+            'email' => self::faker()->email(),
+            'createdAt' => self::faker()->dateTime(), // TODO add DATETIME ORM type manually
             'uuid' => Uuid::v4(), // TODO add UUID ORM type manually
+            'Reseller' => ResellerFactory::random()
         ];
     }
 

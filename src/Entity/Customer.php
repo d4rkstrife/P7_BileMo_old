@@ -19,21 +19,22 @@ class Customer
     #[ORM\Column(type: 'string', length: 255)]
     private $lastName;
 
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private $userName;
-
     #[ORM\Column(type: 'string', length: 255)]
     private $adress;
 
-    #[ORM\Column(type: 'datetime')]
-    private $SignUpDate;
-
-    #[ORM\ManyToOne(targetEntity: Reseeler::class, inversedBy: 'customers')]
+    #[ORM\ManyToOne(targetEntity: Reseller::class, inversedBy: 'customers')]
     #[ORM\JoinColumn(nullable: false)]
-    private $reseeler;
+    private $reseller;
 
-    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\Column(type: 'uuid')]
     private $uuid;
+
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private $email;
+
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
+
 
     public function getId(): ?int
     {
@@ -64,18 +65,6 @@ class Customer
         return $this;
     }
 
-    public function getUserName(): ?string
-    {
-        return $this->userName;
-    }
-
-    public function setUserName(string $userName): self
-    {
-        $this->userName = $userName;
-
-        return $this;
-    }
-
     public function getAdress(): ?string
     {
         return $this->adress;
@@ -88,26 +77,14 @@ class Customer
         return $this;
     }
 
-    public function getSignUpDate(): ?\DateTimeInterface
+    public function getReseller(): ?Reseller
     {
-        return $this->SignUpDate;
+        return $this->reseller;
     }
 
-    public function setSignUpDate(\DateTimeInterface $SignUpDate): self
+    public function setReseller(?Reseller $reseller): self
     {
-        $this->SignUpDate = $SignUpDate;
-
-        return $this;
-    }
-
-    public function getReseeler(): ?Reseeler
-    {
-        return $this->reseeler;
-    }
-
-    public function setReseeler(?Reseeler $reseeler): self
-    {
-        $this->reseeler = $reseeler;
+        $this->reseller = $reseller;
 
         return $this;
     }
@@ -120,6 +97,30 @@ class Customer
     public function setUuid($uuid): self
     {
         $this->uuid = $uuid;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -40,7 +40,7 @@ final class PhoneFactory extends ModelFactory
     {
         return [
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
-            'name' => self::faker()->sentence($nbWords = 1, $variableNbWords = true),
+            'name' => self::faker()->unique()->sentence($nbWords = 1, $variableNbWords = true),
             'price' => self::faker()->numberBetween($min = 900, $max = 1020),
             'brand' => self::faker()->sentence($nbWords = 1, $variableNbWords = true),
             'description' => self::faker()->sentence($nbWords = 30, $variableNbWords = true),
