@@ -43,8 +43,8 @@ final class ResellerFactory extends ModelFactory
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
             'uuid' => Uuid::v4(),
             'roles' => [],
-            'password' => self::faker()->sentence($nbWords = 1, $variableNbWords = true),
-            'company' => self::faker()->unique()->sentence($nbWords = 1, $variableNbWords = true),
+            'password' => self::faker()->word(),
+            'company' => self::faker()->unique()->word(),
             'mail' => self::faker()->unique()->email(),
             'createdAt' => self::faker()->dateTime(), // TODO add DATETIME ORM type manually
         ];
