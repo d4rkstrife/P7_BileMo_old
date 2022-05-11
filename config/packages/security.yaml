@@ -12,7 +12,7 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\Reseller
-                property: uuid
+                property: mail
     firewalls:
      #   dev:
       #      pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -25,28 +25,33 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
         login:
-            pattern: ~/api/login
+            pattern: ^/api
             stateless: true
             json_login:
-                check_path: ~/api/login_check
+                check_path: /api/login
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
-
         api:
             pattern:   ~/api
             stateless: true
             jwt: ~
-        main:
-            lazy: true
-            provider: app_user_provider
+       # api:
+       #     pattern:   ^/api
+       #     stateless: true
+       #     json_login:
+       #         check_path: /api/login
+       #         success_handler: lexik_jwt_authentication.handler.authentication_success
+       #         failure_handler: lexik_jwt_authentication.handler.authentication_failure
+       #     jwt: ~
+        
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
-        - { path: ~/api/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ~/api,       roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
 
 when@test:

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Uid\Uuid;
 use App\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,17 +12,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CustomerController extends AbstractController
 {
     #[Route('/api/customers/', name: 'customers')]
-    public function customerUsers(SerializerInterface $serializer, CustomerRepository $customerRepo): Response
+    public function readAll(SerializerInterface $serializer, CustomerRepository $customerRepo): Response
     {
-        $users = $customerRepo->findAll();
-        $serializedUsers = $serializer->serialize($users,  'json');
-
-        return new Response($serializedUsers);
+        $customers = $customerRepo->findAll();
+        dd($this->json($customers));
+        return $this->json($customers);
     }
 
-    #[Route('/api/customers/{customerId}/users/{userId}', name: 'user_details')]
-    public function userDetails(): Response
+    #[Route('/api/customers/{uuid}', name: 'user_details')]
+    public function readItem(Uuid $uuid, CustomerRepository $customerRepo): Response
     {
-        return new Response("La liste de tous les utilisateurs d'un client");
+
+        $customer = $customerRepo->findOneBy(['uuid' => $uuid]);
+
+        return $this->json($customer);
     }
 }

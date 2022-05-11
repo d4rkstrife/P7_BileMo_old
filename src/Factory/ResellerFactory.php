@@ -8,6 +8,8 @@ use Symfony\Component\Uid\Uuid;
 use Zenstruck\Foundry\ModelFactory;
 use App\Repository\ResellerRepository;
 use DateTime;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Zenstruck\Foundry\RepositoryProxy;
 
 /**
@@ -30,7 +32,7 @@ use Zenstruck\Foundry\RepositoryProxy;
  */
 final class ResellerFactory extends ModelFactory
 {
-    public function __construct()
+    public function __construct(private UserPasswordHasherInterface $userPasswordHasher)
     {
         parent::__construct();
 
@@ -43,7 +45,7 @@ final class ResellerFactory extends ModelFactory
             // TODO add your default values here (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#model-factories)
             'uuid' => Uuid::v4(),
             'roles' => [],
-            'password' => self::faker()->word(),
+            'password' => 'Password1!',
             'company' => self::faker()->unique()->word(),
             'mail' => self::faker()->unique()->email(),
             'createdAt' => self::faker()->dateTime(), // TODO add DATETIME ORM type manually
@@ -54,8 +56,9 @@ final class ResellerFactory extends ModelFactory
     {
         // see https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#initialization
         return $this
-            // ->afterInstantiate(function(Reseller $reseller): void {})
-        ;
+            ->afterInstantiate(function (Reseller $reseller): void {
+                $reseller->setPassword($this->userPasswordHasher->hashPassword($reseller, $reseller->getPassword()));
+            });
     }
 
     protected static function getClass(): string
